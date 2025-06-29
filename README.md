@@ -1,19 +1,20 @@
-Stereo Vision Depth Estimation with OpenCV
+Stereo Vision Depth Estimation with YOLOv8 Object Detection
 
-This project performs depth estimation using a pair of stereo images.
-It uses OpenCV's StereoSGBM algorithm with WLS filtering to generate a smooth disparity map and calculate depth values from it.
+This project performs depth estimation from a stereo image pair using OpenCV's StereoSGBM algorithm with WLS filtering, and overlays detected rocks using a custom-trained YOLOv8 model.
 
 Features:
-Depth estimation range: 0.5m to 5m
+Accurate depth estimation in the range 0.5m to 5m
 
-Works with real stereo images captured from IP webcam or phone
+YOLOv8-based rock detection
 
-WLS filtering for enhanced disparity quality
+Realistic, colorful depth visualization
+
+Interactive clicks to display depth at any pixel
+
+Depth map blended with the original image
 
 Displays:
 Left image
-
-Colored disparity map
 
 Depth map (with color bar)
 
@@ -22,11 +23,13 @@ Interactive click to show real-world depth at any point on the disparity map
 Tools & Libraries Used:
 Python
 
-OpenCV (opencv-contrib-python)
+OpenCV (with contrib) – for stereo matching and visualization
 
-NumPy
+NumPy – for fast matrix operations
 
-Matplotlib
+Matplotlib – for displaying images and handling interaction
+
+YOLOv8 (Ultralytics) – for object detection
 
 Camera Setup:
 Baseline: 25 cm
@@ -38,24 +41,35 @@ Image resolution: 1024x576
 Focal length is calculated from HFOV and image width.
 
 How It Works:
-Load stereo image pair (left.png, right.png)
+Load stereo image pair (e.g., left.png and right.png)
 
-Compute disparity using StereoSGBM
+Convert images to grayscale
 
-Apply WLS filtering to refine disparity
+Compute disparity map using StereoSGBM
 
-Convert disparity to real-world depth using the pinhole camera model:
-    Depth=fx⋅Baseline / Disparity
-    
-Visualize using Matplotlib
+Apply WLS filter to smooth and refine the disparity
 
-Click on the image to see depth value printed and annotated
+Convert disparity to real-world depth using:
+Depth = fx * Baseline / Disparity
 
-How to Use:
-Place stereo images as left.png and right.png
+Colorize the depth map using COLORMAP_JET
+
+Blend the depth map with the original left image
+
+Run YOLOv8 on the left image to detect rocks
+
+Display detection + interactive depth info
 
 Install dependencies:
 
 pip install opencv-contrib-python matplotlib numpy
 
 Run the script and interact with the depth map
+
+ Notes
+
+    You must calibrate your stereo cameras for best accuracy (intrinsics + extrinsics).
+
+    YOLOv8 model must be custom-trained for rock detection and saved as a .pt file.
+
+    Works best when stereo images are well-aligned and rectified.
