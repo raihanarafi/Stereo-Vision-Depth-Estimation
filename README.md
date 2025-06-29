@@ -62,7 +62,7 @@ Display detection + interactive depth info
 
 Install dependencies:
 
-    pip install opencv-contrib-python matplotlib numpy
+    pip install opencv-contrib-python matplotlib numpy ultralytics
 
 Run the script and interact with the depth map
 
